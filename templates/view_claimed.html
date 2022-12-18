@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+{% extends 'home.html' %}
+{% block title %}View Post{% endblock %}
+{% block content %}
+{% load static %}
+
+<style>
+    .col-6 .card-img {
+        animation: zoomin 1s linear 1;
+        animation-delay: 0.6s;
+        visibility: hidden;
+        animation-fill-mode: forwards;
+    }
+
+    @keyframes zoomin {
+        0% {
+            transform: scale(0.5);
+            visibility: visible;
+        }
+
+        100% {
+            transform: scale(1);
+            visibility: visible;
+
+        }
+    }
+</style>
+
+<h4></h4>
+<hr>
+
+{% if messages %}
+{% for result in messages %}
+<div>&ensp;</div>
+{% if result.tags == "error" %}
+<div class="alert alert-danger">
+    {{ result }}
+</div>
+{% else %}
+<div class="alert alert-success">
+    {{ result }}
+</div>
+{% endif %}
+{% endfor %}
+{% endif %}
+
+
+<center>
+<h1>All Claimed Requests</h1>
+</center>
+<!-- pending claim request -->
+<div class="tab-pane" id="profile" role="tabpanel"
+    aria-labelledby="profile-tab">
+    <div style="margin-bottom: 1em;">
+        {% if all_claimed %}
+        <table class="table table-bordered" id="posts" style="color: rgb(13, 184, 13);">
+            <thead>
+                <tr>
+                    <th scope="col" style="color: rgb(13, 184, 13);">Lost By</th>
+                    <th scope="col" style="color: rgb(13, 184, 13);">Found By</th>
+                    <th scope="col" style="color: rgb(13, 184, 13);">Lost Tittle</th>
+                    <th scope="col" style="color: rgb(13, 184, 13);">Found Tittle</th>
+                    <th scope="col" style="color: rgb(13, 184, 13);">Lost Description</th>
+                    <th scope="col" style="color: rgb(13, 184, 13);">Found Description</th>
+                    <th scope="col" style="color: rgb(13, 184, 13);">Lost Image</th>
+                    <th scope="col" style="color: rgb(13, 184, 13);">Found Image</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for claim in all_claimed %}
+                
+                <tr style="text-align: center; vertical-align: middle;">
+                    <td style="color: rgb(13, 184, 13);" scope="row">
+                                            
+                        {{claim.lostPostUserName}}
+                        <br>
+                        <br>
+                        <a href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&to={{claim.publisher_email}}" target="_blank">{{claim.lostPostUserEmail}}</a>        
+                        
+                    </td>
+                    <td style="color: rgb(13, 184, 13);" scope="row">
+                                            
+                        {{claim.foundPostUserName}}
+                        <br>
+                        <br>
+                        <a href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&to={{claim.publisher_email}}" target="_blank">{{claim.foundPostUserEmail}}</a>        
+                        
+                    </td>
+                 
+
+                    <td style="color: rgb(13, 184, 13);">{{claim.lostPostTittle}}</td>
+                    <td style="color: rgb(13, 184, 13);">{{claim.foundPostTittle}}</td>
+
+
+                    <td style="color: rgb(13, 184, 13);">{{claim.lostPostDescription}}</td>
+                    <td style="color: rgb(13, 184, 13);">{{claim.foundPostDescription}}</td>
+
+
+                    <td style="color: rgb(13, 184, 13);">
+                        <a href="{{claim.post_fileImg}}" target="_blank"><img
+                                src="http://127.0.0.1:8000/{{claim.lostPostImg}}"
+                                style="max-width: 150px;"></a>
+                    </td>
+
+
+                    <td style="color: rgb(13, 184, 13);">
+                        <a href="{{claim.post_fileImg}}" target="_blank"><img
+                                src="http://127.0.0.1:8000/{{claim.foundPostImg}}"
+                                style="max-width: 150px;"></a>
+                    </td>
+
+             
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br><br><br><br><br><br><br><br><br><br>
+        {% else %}
+        <div class="custom-center">
+            <h4>No Claimed Items</h4>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+
